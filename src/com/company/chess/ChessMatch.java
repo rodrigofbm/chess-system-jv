@@ -1,6 +1,7 @@
 package com.company.chess;
 
 import com.company.boardgame.Board;
+import com.company.boardgame.Piece;
 import com.company.boardgame.Position;
 import com.company.chess.pieces.King;
 import com.company.chess.pieces.Rook;
@@ -41,5 +42,30 @@ public class ChessMatch {
         placeNewPiece('e', 7, new Rook(board, Color.BLACK));
         placeNewPiece('e', 8, new Rook(board, Color.BLACK));
         placeNewPiece('d', 8, new King(board, Color.BLACK));
+    }
+
+    public ChessPiece performChessMove(ChessPosition source, ChessPosition target) {
+        Position sourcePos = source.toPosition();
+        Position targetPos = target.toPosition();
+
+        validateSourcePosition(sourcePos);
+        Piece capturedPiece = makeMove(sourcePos, targetPos);
+
+        return (ChessPiece)capturedPiece;
+    }
+
+    private Piece makeMove(Position sourcePos, Position targetPos) {
+        Piece p = board.removePiece(sourcePos);
+        Piece capturePiece = board.removePiece(targetPos);
+
+        board.placePiece(p, targetPos);
+
+        return capturePiece;
+    }
+
+    private void validateSourcePosition(Position sourcePos) {
+        if(!board.thereIsAPiece(sourcePos)) {
+            throw new ChessException("Empty source posotion");
+        }
     }
 }

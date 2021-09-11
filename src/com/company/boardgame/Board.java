@@ -3,7 +3,7 @@ package com.company.boardgame;
 public class Board {
     private int rows;
     private int columns;
-    private Piece[][] pices;
+    private Piece[][] pieces;
 
     public Board(int rows, int columns) {
         if(rows < 1 || columns < 1) {
@@ -13,7 +13,7 @@ public class Board {
         this.rows = rows;
         this.columns = columns;
 
-        pices = new Piece[rows][columns];
+        pieces = new Piece[rows][columns];
     }
 
     public int getRows() {
@@ -28,7 +28,7 @@ public class Board {
         if(!positionExists(row, column)) {
             throw new BoardException("invalid Position");
         }
-        return pices[row][column];
+        return pieces[row][column];
     }
 
     public Piece piece(Position position) {
@@ -39,7 +39,7 @@ public class Board {
         if(thereIsAPiece(position)) {
             throw new BoardException("Slot not empty");
         }
-        pices[position.getRow()][position.getColumn()] = piece;
+        pieces[position.getRow()][position.getColumn()] = piece;
         piece.position = position;
     }
 
@@ -61,5 +61,19 @@ public class Board {
 
     public boolean thereIsAPiece(int row, int column) {
         return thereIsAPiece(new Position(row, column));
+    }
+
+    public Piece removePiece(Position position) {
+        if(!positionExists(position)) {
+            throw new BoardException("invalid Position");
+        }
+
+        if(piece(position) == null) return null;
+
+        Piece aux = piece(position);
+        aux.position = null;
+        pieces[position.getRow()][position.getColumn()] = null;
+
+        return aux;
     }
 }
