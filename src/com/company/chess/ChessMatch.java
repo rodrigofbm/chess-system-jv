@@ -78,4 +78,11 @@ public class ChessMatch {
             throw new ChessException("No possible moves for that piece");
         }
     }
+
+    public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+        var position = sourcePosition.toPosition();
+        validateSourcePosition(position);
+
+        return board.piece(position).possibleMoves();
+    }
 }
