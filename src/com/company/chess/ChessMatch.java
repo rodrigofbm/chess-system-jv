@@ -67,5 +67,8 @@ public class ChessMatch {
         if(!board.thereIsAPiece(sourcePos)) {
             throw new ChessException("Empty source posotion");
         }
+        if(!board.piece(sourcePos).isThereAnyPossibleMove()) {
+            throw new ChessException("No possible moves for that piece");
+        }
     }
 }
