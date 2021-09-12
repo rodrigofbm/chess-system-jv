@@ -49,9 +49,16 @@ public class ChessMatch {
         Position targetPos = target.toPosition();
 
         validateSourcePosition(sourcePos);
+        validateTargetPosition(sourcePos, targetPos);
         Piece capturedPiece = makeMove(sourcePos, targetPos);
 
         return (ChessPiece)capturedPiece;
+    }
+
+    private void validateTargetPosition(Position sourcePos, Position targetPos) {
+        if(!board.piece(sourcePos).possibleMove(targetPos)) {
+            throw new ChessException("Not valid destination move");
+        }
     }
 
     private Piece makeMove(Position sourcePos, Position targetPos) {
